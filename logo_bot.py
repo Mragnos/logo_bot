@@ -6,13 +6,25 @@ token = bot_key()
 bot = telebot.TeleBot(token)
 
 
-one_age = 'а', 'е', 'о', 'м', 'б', 'к', 'г'
+one_age = ['а', 'е', 'о', 'м', 'б', 'к', 'г']
 one_age_fin = ', '.join(one_age)
 
-two_age = ['а', 'е', 'о', 'и', 'м', 'м мягкий', 'б', 'к', 'к мягкий', 'г', 'г мягкий', 'п']
+two_age = ['а', 'е', 'о', 'и', 'м', 'м мягкий', 'б', 'б мягкий', 'к', 'к мягкий', 'г', 'г мягкий', 'п', 'т',
+           'т мягкий', 'д', 'д мягкий', 'н', 'н мягкий']
 two_age_fin = ', '.join(two_age)
 
-age = ['1', '2']
+three_age = two_age + ['в', 'в мягкий', 'ф', 'ф мягкий', 'ы', 'э', 'х', 'х мягкий', 'с мягкий', 'з мягкий']
+three_age_fin = ', '.join(three_age)
+
+four_age = three_age + ['c', 'з', 'у', 'ш', 'ж', 'ч', 'щ']
+four_age_fin = ', '.join(four_age)
+
+five_age = four_age + ['р', 'р мягкий', 'л', 'л мягкий', 'правильно произносить и дифференцировать в речи все звуки'
+                                                         'родного языка']
+five_age_fin = ', '.join(five_age)
+#six_plus = 'вау'
+
+age = ['1', '2', '3', '4', '5']
 
 
 def check_age(message):
@@ -23,7 +35,7 @@ def check_age(message):
 
 
 def check_age_value(text):
-    age_values = {'1': one_age_fin, '2': two_age_fin}
+    age_values = {'1': one_age_fin, '2': two_age_fin, '3': three_age_fin, '4': four_age_fin, '5': five_age_fin}
     for age, value in age_values.items():
         if age in text.lower():
             return age, value
@@ -31,9 +43,9 @@ def check_age_value(text):
 
 
 @bot.message_handler(func=check_age)
-def handle_currency(message):
-    currency, value = check_age_value(message.text)
-    if currency:
+def handle_age(message):
+    age, value = check_age_value(message.text)
+    if age:
         bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен  говорить следующие звуки:'
                                                        ' {}'.format(value))
     else:

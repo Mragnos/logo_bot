@@ -6,11 +6,12 @@ token = bot_key()
 bot = telebot.TeleBot(token)
 
 
-one_age = ['а', 'е', 'о', 'м', 'б', 'к', 'г']
+one_age = ['гласные звуки: [а] [е] [о]', 'а также согласные твердые звуки: [б] [г] [к] [м]']
 one_age_fin = ', '.join(one_age)
 
-two_age = ['а', 'е', 'о', 'и', 'м', 'м мягкий', 'б', 'б мягкий', 'к', 'к мягкий', 'г', 'г мягкий', 'п', 'т',
-           'т мягкий', 'д', 'д мягкий', 'н', 'н мягкий']
+two_age = ['гласные звуки: [а] [е] [и] [о]',
+           'согласные твердые звуки: [б] [г] [д] [к] [м] [н] [п] [т]',
+           'а также согласные мягкие звуки: [б] [г] [д] [к] [м] [н] [т]']
 two_age_fin = ', '.join(two_age)
 
 three_age = two_age + ['в', 'в мягкий', 'ф', 'ф мягкий', 'ы', 'э', 'х', 'х мягкий', 'с мягкий', 'з мягкий']
@@ -19,7 +20,7 @@ three_age_fin = ', '.join(three_age)
 four_age = three_age + ['c', 'з', 'у', 'ш', 'ж', 'ч', 'щ']
 four_age_fin = ', '.join(four_age)
 
-five_age = four_age + ['р', 'р мягкий', 'л', 'л мягкий', 'правильно произносить и дифференцировать в речи все звуки']
+five_age = four_age + ['р', 'р мягкий', 'л', 'л мягкий']
 five_age_fin = ', '.join(five_age)
 
 
@@ -41,7 +42,7 @@ def callback_handler(callback_query):
     text = callback_query.data
     age, value = check_age_value(text)
     if age:
-        bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен  говорить следующие звуки:'
+        bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен правильно произносить'
                                                        ' {}'.format(value))
 
 
@@ -53,8 +54,8 @@ def check_age(message):
 
 
 def check_age_value(text):
-    age_values = {'1': one_age_fin, '2': two_age_fin, '3': three_age_fin,'4': four_age_fin, '5': five_age_fin
-                  }
+    age_values = {'1': one_age_fin, '2': two_age_fin, '3': three_age_fin, '4': four_age_fin, '5': five_age_fin,
+                  '6+': ' и дифференцировать в речи все звуки родного языка'}
     for age, value in age_values.items():
         if age in text.lower():
             return age, value
@@ -65,7 +66,7 @@ def check_age_value(text):
 def handle_age(message):
     age, value = check_age_value(message.text)
     if age:
-        bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен  говорить следующие звуки:'
+        bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен правильно произносить'
                                                        ' {}'.format(value))
     else:
         bot.send_message(chat_id=message.chat.id, text='Укажите возвраст вашего ребенка')
@@ -79,7 +80,8 @@ def handle_message(message):
 
 @bot.message_handler(func=lambda message: message.text in new_age)
 def handle_message(message):
-    bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен правильно произносить и дифференцировать в речи все звуки')
+    bot.send_message(chat_id=message.chat.id, text='В данном возрасте ваш ребенок должен правильно произносить и'
+                                                   '  дифференцировать в речи все звуки родного языка')
 
 
 if __name__ == '__main__':

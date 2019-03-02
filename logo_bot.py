@@ -98,10 +98,6 @@ def handle_message(message):
     bot.send_message(chat_id=message.chat.id, text='Сколько полных лет вашему ребенку?')
 
 
-if __name__ == '__main__':
-    bot.polling(none_stop=True)
-
-
 server = Flask(__name__)
 
 

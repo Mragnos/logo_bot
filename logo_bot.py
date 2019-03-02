@@ -110,7 +110,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url="https://ratesbot.herokuapp.com/bot")
+    bot.set_webhook(url="https://logobot.herokuapp.com/bot")
     return "?", 200
 
 
